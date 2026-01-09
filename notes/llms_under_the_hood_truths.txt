@@ -1,0 +1,214 @@
+Absolutely. Below is a **compiled, practical list of “under-the-hood truths” about LLMs**—things that materially affect behavior, cost, reliability, and system design, but are rarely obvious from the UI.
+
+I’ll group them so they’re easy to absorb and reuse.
+
+---
+
+# 🧠 Under-the-Hood Truths About LLMs
+
+## 1. Tokens, Not Words, Are the Real Currency
+
+* Models **think, bill, and limit** in tokens.
+* Short text can be expensive; long text can be cheap.
+* Common words = fewer tokens; rare/compound words = more tokens.
+
+**Implication:** Prompt engineering is mostly **token engineering**.
+
+---
+
+## 2. Models Don’t “See” Messages — They See One Long String
+
+* System + developer + user messages are concatenated internally.
+* Order and phrasing strongly influence behavior.
+* Earlier text has more influence than later text.
+
+**Implication:** Put constraints **early**, not at the end.
+
+---
+
+## 3. Instructions Compete With Each Other
+
+* Conflicting instructions are resolved probabilistically, not logically.
+* “Be concise” vs “Explain in detail” is not an error—just tension.
+
+**Implication:** Fewer, clearer rules beat many clever ones.
+
+---
+
+## 4. The Model Has No Concept of Truth
+
+* It predicts *what sounds right*, not *what is right*.
+* Confidence ≠ correctness.
+* Citations can be fabricated unless verified externally.
+
+**Implication:** LLMs need **grounding** (tools, retrieval, validation).
+
+---
+
+## 5. Memory Is Not Persistence
+
+* “Conversation memory” ≠ database.
+* Context window ≠ long-term recall.
+* Once text falls out of the window, it’s gone.
+
+**Implication:** Important facts must be **re-injected** or stored externally.
+
+---
+
+## 6. “Temperature” Is Controlled Randomness, Not Creativity
+
+* Low temperature → deterministic, conservative
+* High temperature → varied, riskier
+* It does **not** make the model “smarter”
+
+**Implication:** Use temperature for **style**, not correctness.
+
+---
+
+## 7. The Model Doesn’t Reason — It Simulates Reasoning
+
+* Chain-of-thought is a *generated artifact*, not actual logic.
+* Correct answers can come from flawed reasoning and vice versa.
+
+**Implication:** Trust **outputs**, not explanations.
+
+---
+
+## 8. Longer Prompts Can Make Answers Worse
+
+* Over-specification dilutes signal.
+* Important instructions can be “lost” in noise.
+
+**Implication:** Clarity beats completeness.
+
+---
+
+## 9. Negative Instructions Are Weak
+
+* “Do NOT do X” is less effective than “Only do Y”.
+* The model still internally represents “X”.
+
+**Implication:** Use **positive constraints**.
+
+---
+
+## 10. The Model Is Extremely Sensitive to Framing
+
+* “You are an expert” works
+* “You are bad at this” also works
+* Tone primes behavior heavily
+
+**Implication:** Role assignment is a powerful lever.
+
+---
+
+## 11. Models Learn Patterns, Not Rules
+
+* They don’t execute algorithms unless prompted carefully.
+* Edge cases are especially fragile.
+
+**Implication:** For logic-heavy tasks, add **structure** (steps, schemas).
+
+---
+
+## 12. Hallucinations Increase With:
+
+* Ambiguous questions
+* Rare topics
+* Long-tail facts
+* Requests for citations
+* Overconfidence prompts
+
+**Implication:** Ask for **uncertainty disclosure** explicitly.
+
+---
+
+## 13. The Model Can Be Steered by Examples More Than Instructions
+
+* One good example > five paragraphs of rules.
+
+**Implication:** Use **few-shot prompting** whenever possible.
+
+---
+
+## 14. “Random” Isn’t Random
+
+* Same prompt + same seed → same output.
+* Different phrasing → radically different outputs.
+
+**Implication:** Prompt wording is a form of programming.
+
+---
+
+## 15. Safety Filters Operate Outside the Model
+
+* Refusals aren’t “decisions”
+* They’re enforced layers
+
+**Implication:** Model behavior ≠ system behavior.
+
+---
+
+## 16. Models Don’t Know What They Don’t Know
+
+* They won’t say “I don’t know” unless trained or instructed.
+* Silence feels worse than guessing.
+
+**Implication:** Explicitly request **confidence levels or uncertainty**.
+
+---
+
+## 17. The Model Optimizes for Helpfulness Over Precision
+
+* It will fill gaps to be useful.
+* Partial information gets completed.
+
+**Implication:** In high-stakes domains, constrain output tightly.
+
+---
+
+## 18. Formatting Changes Meaning
+
+* Bullet points ≠ paragraphs
+* Tables ≠ prose
+* Code blocks drastically alter behavior
+
+**Implication:** Output format is part of the prompt.
+
+---
+
+## 19. Models Are Better at Editing Than Creating
+
+* Fixing, summarizing, refactoring > inventing
+* “Improve this” beats “Create from scratch”
+
+**Implication:** Seed the model whenever possible.
+
+---
+
+## 20. Cost, Latency, and Quality Trade Off
+
+* Larger models = better reasoning, slower, more expensive
+* Smaller models = faster, cheaper, less reliable
+
+**Implication:** Match the model to the task.
+
+---
+
+# 🧩 Meta Truth (The Big One)
+
+> **LLMs are not AI employees — they are probabilistic text engines that can simulate expertise when constrained correctly.**
+
+Most failures come from treating them like humans instead of **systems**.
+
+---
+
+## If you want, next I can:
+
+* Map these truths to **real production failures**
+* Show **before/after prompts** demonstrating each one
+* Create a **LLM design checklist** for teams
+* Explain which truths matter most for **startups vs enterprises**
+
+Just tell me where you want to go next.
+
